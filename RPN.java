@@ -32,6 +32,76 @@ public class RPN
 
     }
 
+    public static int getPrecedence( String op )
+    {
+
+        switch( op )
+        {
+
+            case "^":
+            {
+                return 4;
+            }
+            case "*":
+            {
+                return 3;
+            }
+            case "/":
+            {
+                return 3;
+            }
+            case "+":
+            {
+                return 2;
+            }
+            case "-":
+            {
+                return 2;
+            }
+
+        }
+
+        return -1;
+
+    }
+
+    public static boolean getAssoc( String op )
+    {
+
+        //false = right associativity
+        //true  = left  associativity
+
+        switch( op )
+        {
+
+            case "^":
+            {
+                return false;
+            }
+            case "*":
+            {
+                return true;
+            }
+            case "/":
+            {
+                return true;
+            }
+            case "+":
+            {
+                return true;
+            }
+            case "-":
+            {
+                return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
+
     public static ArrayList<String> shuntingYard( ArrayList<String> input )
     {
 
@@ -41,9 +111,7 @@ public class RPN
         for( String i : input )
         {
 
-            //System.out.println( i );
-
-            if( isNumeric( i ) )
+            if( isNumeric( i ) || i.equals("x") )
             {
  
                 output.add( i );
@@ -51,17 +119,94 @@ public class RPN
             }else
             {
 
-                operator.add( i );
+                if( i.equals( "(" ) )
+                {
+
+                    operator.add(i);
+
+                }else if( i.equals(")" ) )
+                {
+
+                    if( operator.size() > 0 )
+                    {
+
+                        while( !operator.get(0).equals( "(" ) )
+                        {
+
+                            System.out.println( operator.get(0) );
+                            output.add( operator.get(0) );
+                            operator.remove( 0 );
+
+                        }
+                        operator.remove( 0 );
+
+                    }
+
+                    continue;
+
+                }
+
+                if( operator.size() > 0 )
+                {
+
+                    while( operator.size() > 0 )
+                    {
+
+                        //If the operator has a left association.
+                        if( !getAssoc( i ) )
+                        {
+
+                            if( getPrecedence( i ) <= getPrecedence(operator.get(0)) )
+                            {
+
+                                output.add( operator.get(0) );
+                                operator.remove( 0 );
+
+                            }else
+                            {
+
+                                break;
+
+                            }
+                        
+                        //If the operator has a right association.
+                        }else if( getAssoc( i ) )
+                        {
+
+                            if( getPrecedence( i ) <= getPrecedence( operator.get(0) ) )
+                            {
+
+                                output.add( operator.get(0) );
+                                operator.remove( 0 );
+
+                            }else
+                            {
+
+                                break;
+
+                            }
+
+                        }
+
+                    }
+
+                    operator.add( i );
+
+                }else
+                {
+
+                    operator.add( i );
+
+
+                }
 
             }
 
         }
 
-        for( String i : operator )
+        for( int i = operator.size()-1; i >= 0; i-- )
         {
-
-            output.add( i );
-
+            output.add( operator.get(i) );
         }
 
         return output;
