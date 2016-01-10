@@ -26,9 +26,11 @@ public class RPN
         for( int i = 0; i < array.size(); i++ )
         {
 
-            System.out.println( array.get(i) );
+            System.out.print( array.get(i) + " " );
 
         }
+
+        System.out.println("");
 
     }
 
@@ -38,6 +40,14 @@ public class RPN
         switch( op )
         {
 
+            case "(":
+            {
+                return 5;
+            }
+            case ")":
+            {
+                return 5;
+            }
             case "^":
             {
                 return 4;
@@ -110,74 +120,52 @@ public class RPN
 
         for( String i : input )
         {
-
-            if( isNumeric( i ) || i.equals("x") )
+    
+            if( isNumeric( i ) )
             {
- 
+
                 output.add( i );
 
             }else
             {
 
-                if( i.equals( "(" ) )
-                {
-
-                    operator.add(i);
-
-                }else if( i.equals(")" ) )
-                {
-
-                    if( operator.size() > 0 )
-                    {
-
-                        while( !operator.get(0).equals( "(" ) )
-                        {
-
-                            System.out.println( operator.get(0) );
-                            output.add( operator.get(0) );
-                            operator.remove( 0 );
-
-                        }
-                        operator.remove( 0 );
-
-                    }
-
-                    continue;
-
-                }
-
                 if( operator.size() > 0 )
                 {
 
-                    while( operator.size() > 0 )
+                    //left
+                    if( getAssoc( i ) )
                     {
 
-                        //If the operator has a left association.
-                        if( !getAssoc( i ) )
+                        while( operator.size() > 0 )
                         {
 
-                            if( getPrecedence( i ) <= getPrecedence(operator.get(0)) )
+                            if( getPrecedence( i ) <= getPrecedence( operator.get(operator.size()-1) ) )
                             {
 
-                                output.add( operator.get(0) );
-                                operator.remove( 0 );
+                                output.add( operator.get( operator.size()-1 ) );
+                                operator.remove( operator.size()-1 );
 
                             }else
                             {
 
                                 break;
-
+                                
                             }
-                        
-                        //If the operator has a right association.
-                        }else if( getAssoc( i ) )
+
+                        }
+                        operator.add(i);
+
+                    }else
+                    {
+
+                        while( operator.size() > 0 )
                         {
 
-                            if( getPrecedence( i ) <= getPrecedence( operator.get(0) ) )
+                            if( getPrecedence( i ) < getPrecedence( operator.get( operator.size()-1 ) ) )
                             {
 
-                                output.add( operator.get(0) );
-                                operator.remove( 0 );
+                                output.add( operator.get( operator.size()-1 ) );
+                                operator.remove( operator.size()-1 );
 
                             }else
                             {
@@ -188,15 +176,14 @@ public class RPN
 
                         }
 
-                    }
+                        operator.add(i);
 
-                    operator.add( i );
+                    }
 
                 }else
                 {
 
                     operator.add( i );
-
 
                 }
 
@@ -209,7 +196,46 @@ public class RPN
             output.add( operator.get(i) );
         }
 
+        System.out.println( " " );
+
         return output;
+
+    }
+
+    public static int EvalRPN( ArrayList<String> input )
+    {
+
+        ArrayList<Integer> output = new ArrayList<>();
+        ArrayList<String> ops = new ArrayList<>();
+
+        for( String i : input )
+        {
+
+            if( isNumeric( i ) )
+            {
+
+                //output.add( Double.parseDouble( i ) );
+
+            }else
+            {
+
+                switch( i )
+                {
+
+                    case "+":
+                    {
+
+                        output.add( output.get( output.size()-1 ) + output.get( output.size()-2 ) );
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return output.get(0);
 
     }
 
@@ -219,7 +245,7 @@ public class RPN
        try
        {
 
-            Integer.parseInt( input );
+            Double.parseDouble( input );
 
        }
        catch( NumberFormatException e )
