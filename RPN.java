@@ -26,11 +26,11 @@ public class RPN
         for( int i = 0; i < array.size(); i++ )
         {
 
-            System.out.print( array.get(i) + " " );
+            //System.out.print( array.get(i) + " " );
 
         }
 
-        System.out.println("");
+        System.out.println( EvalRPN( array ) );
 
     }
 
@@ -202,19 +202,46 @@ public class RPN
 
     }
 
-    public static int EvalRPN( ArrayList<String> input )
+    public static ArrayList<Double> GetVals( int count, ArrayList<Double> in )
     {
 
-        ArrayList<Integer> output = new ArrayList<>();
+        ArrayList<Double> out = new ArrayList<>();
+
+        if( count > in.size() )
+        {
+
+            System.out.println( "Not enough vals!" );
+            return null;
+
+        }
+
+        for( int i = 0; i < count; i++ )
+        {
+
+            out.add( in.get( in.size()-1 ) );
+            in.remove( in.size()-1 );
+
+        }
+
+        return out;
+
+    }
+
+    public static double EvalRPN( ArrayList<String> input )
+    {
+
+        ArrayList<Double> output = new ArrayList<>();
         ArrayList<String> ops = new ArrayList<>();
 
+        ArrayList<Double> vals = new ArrayList<>();
+        
         for( String i : input )
         {
 
             if( isNumeric( i ) )
             {
 
-                //output.add( Double.parseDouble( i ) );
+                output.add( Double.parseDouble( i ) );
 
             }else
             {
@@ -225,7 +252,33 @@ public class RPN
                     case "+":
                     {
 
-                        output.add( output.get( output.size()-1 ) + output.get( output.size()-2 ) );
+                        vals = GetVals( 2, output );
+                        output.add( vals.get(0) + vals.get(1) );
+                        break;
+
+                    }
+                    case "-":
+                    {
+
+                        vals = GetVals( 2, output );
+                        output.add( vals.get(1) - vals.get(0) );
+                        break;
+
+                    }
+                    case "*":
+                    {
+
+                        vals = GetVals( 2, output );
+                        output.add( vals.get(1) * vals.get(0) );
+                        break;
+
+                    }
+                    case "/":
+                    {
+
+                        vals = GetVals( 2, output );
+                        output.add( vals.get(1) / vals.get(0) );
+                        break;
 
                     }
 
