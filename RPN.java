@@ -316,7 +316,7 @@ public class RPN
 
             }
 
-            if( ( isNumeric( holder ) != isNumeric( Character.toString(input.charAt(i)) ) ) && !holder.isEmpty() )
+            if( ( isNumeric( holder ) != isNumeric( Character.toString(input.charAt(i)) ) ) && !holder.isEmpty() && input.charAt( i ) != '.' )
             {
 
                 tokens.add(holder);
