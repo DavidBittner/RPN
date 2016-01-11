@@ -34,8 +34,36 @@ public class RPN
 
     }
 
+    public static boolean CheckFunc( String in )
+    {
+
+        String funcs[] = {"sin","cos"};
+
+        for( String i : funcs )
+        {
+
+            if( in.equals(i) )
+            {
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
     public static int getPrecedence( String op )
     {
+
+        if( CheckFunc( op ) )
+        {
+
+            return 5;
+
+        }
 
         switch( op )
         {
@@ -80,6 +108,13 @@ public class RPN
 
         //false = right associativity
         //true  = left  associativity
+
+        if( CheckFunc( op ) )
+        {
+
+            return true;
+    
+        }
 
         switch( op )
         {
@@ -309,6 +344,14 @@ public class RPN
 
                         vals = GetVals( 2, output );
                         output.add( Math.pow( vals.get(1), vals.get(0) ) );
+                        break;
+
+                    }
+                    case "sin":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.sin( vals.get(0) ) );
                         break;
 
                     }
