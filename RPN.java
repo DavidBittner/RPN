@@ -126,10 +126,10 @@ public class RPN
 
                 output.add( i );
 
-            }else
+            }else if( !i.equals( "(" ) && !i.equals( ")" ) )
             {
 
-                if( operator.size() > 0 )
+                if( operator.size() > 0 && !operator.get( operator.size()-1 ).equals("(") )
                 {
 
                     //left
@@ -184,6 +184,29 @@ public class RPN
                 {
 
                     operator.add( i );
+
+                }
+
+            }else
+            {
+
+                if( i.equals("(") )
+                {
+
+                    operator.add( "(" );
+
+                }else if( i.equals(")") )
+                {
+
+
+                    while( operator.size() > 0 && !operator.get(operator.size()-1).equals("(") )
+                    {
+
+                        output.add( operator.get(operator.size()-1) );
+                        operator.remove( operator.size()-1 );
+
+                    }
+                    operator.remove( operator.size()-1 );
 
                 }
 
@@ -278,6 +301,14 @@ public class RPN
 
                         vals = GetVals( 2, output );
                         output.add( vals.get(1) / vals.get(0) );
+                        break;
+
+                    }
+                    case "^":
+                    {
+
+                        vals = GetVals( 2, output );
+                        output.add( Math.pow( vals.get(1), vals.get(0) ) );
                         break;
 
                     }
