@@ -4,14 +4,11 @@ import java.util.Scanner;
 public class RPN
 {
 
-    private static String equat;
-    private static ArrayList<String> finalEquat;
+    //private static String equat;
+    //private static ArrayList<String> finalEquat;
 
     RPN()
     {
-
-        equat = "";
-        finalEquat = new ArrayList<>();
 
     }
 
@@ -156,7 +153,7 @@ public class RPN
         for( String i : input )
         {
     
-            if( isNumeric( i ) )
+            if( isNumeric( i ) || i.equals("x") )
             {
 
                 output.add( i );
@@ -470,6 +467,53 @@ public class RPN
         tokens.add(holder);
 
         return tokens;
+
+    }
+
+    static ArrayList<String> Replace( ArrayList<String> ary, double val )
+    {
+
+        ArrayList<String> newAry = new ArrayList<>( ary );
+
+        for( int i = 0; i < ary.size(); i++ )
+        {
+
+            if( ary.get(i).equals( "x" ) )
+            {
+
+                System.out.println( Double.toString( val ) );
+                newAry.set( i, Double.toString(val) );
+
+            }
+
+        }
+
+        return newAry;
+
+    }
+
+    static ArrayList<Double> GetGraphVals( double xmin, double xmax, String equation )
+    {
+
+        equation.replace( " ", "" );
+
+        ArrayList<String> tokens = tokenize( equation );
+        ArrayList<String> rpnEqua = shuntingYard( tokens );
+
+        ArrayList<Double> out = new ArrayList<>();
+
+        for( double i = xmin; i < xmax; i+=0.1 )
+        {
+
+            ArrayList<String> tempEquation = Replace( rpnEqua, i );
+            double returnVal = EvalRPN( tempEquation );
+
+            out.add( i );
+            out.add( returnVal );
+
+        }
+
+        return out;
 
     }
 
