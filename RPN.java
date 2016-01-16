@@ -355,6 +355,14 @@ public class RPN
                         break;
 
                     }
+                    case "cos":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.cos( vals.get(0) ) );
+                        break;
+
+                    }
 
                 }
 
