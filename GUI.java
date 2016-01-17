@@ -48,7 +48,6 @@ public class GUI extends Application
 
     }
 
-    static double a[] = {0.0};
 
     public static void main( String args[] )
     {
@@ -63,21 +62,33 @@ public class GUI extends Application
 
         translator = new RPN();
 
-        primaryStage.setTitle( "Hello, world!" );
+        primaryStage.setTitle( "Graping Calculator" );
         
         grid = new GridPane();
         grid.setHgap( 10 );
         grid.setVgap( 10 );
-        grid.setPadding( new Insets( 0, 10, 0, 10 ) );
+        grid.setPadding( new Insets( 10, 10, 10, 10 ) );
 
         Equation = new TextField("");
         Button GraphButton = new Button("Graph" );
+
+        MenuBar topBar = new MenuBar();
+        Menu Change = new Menu("Change");
+        topBar.getMenus().add( Change );
 
         GraphButton.setOnAction( new EventHandler<ActionEvent>()
         {
 
             public void handle( ActionEvent e ) 
             {
+ 
+                final NumberAxis newXAxis = (NumberAxis)Graph.getXAxis();
+                final NumberAxis newYAxis = (NumberAxis)Graph.getYAxis();
+
+                newXAxis.setLowerBound( xmin );
+                newXAxis.setUpperBound( xmax );
+                newYAxis.setLowerBound( ymin );
+                newYAxis.setUpperBound( ymax );
 
                 AddData();
 
@@ -88,18 +99,28 @@ public class GUI extends Application
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
 
+        xAxis.setAutoRanging( false );
+        yAxis.setAutoRanging( false );
+
+        xAxis.setLowerBound( xmin );
+        xAxis.setUpperBound( xmax );
+        yAxis.setLowerBound( ymin );
+        yAxis.setUpperBound( ymax );
+
         Graph = new LineChart<Number, Number>(xAxis, yAxis);
         XYChart.Series data = new XYChart.Series(); 
         
+        Graph.setPrefSize( 2000, 1000 );
+        
         Graph.setCreateSymbols( false );
-        Graph.setAnimated( false );
         Graph.setLegendVisible( false );
 
-        grid.add( Graph, 0, 0 );
-        grid.add( Equation, 0, 1 );
-        grid.add( GraphButton, 0, 2 ); 
+        grid.add( topBar, 0, 0 );
+        grid.add( Graph, 0, 1 );
+        grid.add( Equation, 0, 2 );
+        grid.add( GraphButton, 0, 3 ); 
 
-        primaryStage.setScene( new Scene(grid, 300, 250 ) );
+        primaryStage.setScene( new Scene(grid, 800, 600 ) );
         primaryStage.show();
 
     }

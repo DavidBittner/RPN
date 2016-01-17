@@ -96,7 +96,7 @@ public class RPN
 
         }
 
-        return -1;
+        return 1;
 
     }
 
@@ -139,7 +139,7 @@ public class RPN
 
         }
 
-        return false;
+        return true;
 
     }
 
