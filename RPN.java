@@ -179,31 +179,24 @@ public class RPN
             }else if( !i.equals( "(" ) && !i.equals( ")" ) )
             {
 
-                if( i.equals("+") || i.equals("-") )
+
+                if( OpAlready && (i.equals("+") || i.equals("-")) )
                 {
 
-                    if( OpAlready )
-                    {
-
-                        OpAlready = false;
-                        AddSign = true;
-                        sign = i;
-                        continue;
-
-                    }else
-                    {
-
-                        OpAlready = true;
-
-                    }
+                    OpAlready = false;
+                    AddSign = true;
+                    sign = i;
+                    continue;
 
                 }else
                 {
 
-                    OpAlready = false;
+                    OpAlready = true;
 
                 }
 
+                OpAlready = true;
+                
                 if( operator.size() > 0 && !operator.get( operator.size()-1 ).equals("(") )
                 {
 
@@ -524,8 +517,12 @@ public class RPN
             if( ary.get(i).equals( "x" ) )
             {
 
-                System.out.println( Double.toString( val ) );
                 newAry.set( i, Double.toString(val) );
+
+            }else if( ary.get(i).equals("-x" ) )
+            {
+
+                newAry.set( i, Double.toString(-val) );
 
             }
 
@@ -545,14 +542,24 @@ public class RPN
 
         ArrayList<Double> out = new ArrayList<>();
 
-        for( double i = xmin; i < xmax; i+=0.1 )
+        try
         {
 
-            ArrayList<String> tempEquation = Replace( rpnEqua, i );
-            double returnVal = EvalRPN( tempEquation );
+            for( double i = xmin; i < xmax; i+=0.01 )
+            {
 
-            out.add( i );
-            out.add( returnVal );
+                ArrayList<String> tempEquation = Replace( rpnEqua, i );
+                double returnVal = EvalRPN( tempEquation );
+
+                out.add( i );
+                out.add( returnVal );
+
+            }
+            
+        }catch( NullPointerException e )
+        {
+
+            return null;
 
         }
 
