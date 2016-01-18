@@ -150,16 +150,59 @@ public class RPN
         ArrayList<String> output = new ArrayList<>(0);
         ArrayList<String> operator = new ArrayList<>(0);
 
+        boolean OpAlready = true;
+        boolean AddSign = false;
+        String sign = "";
+
         for( String i : input )
         {
     
             if( isNumeric( i ) || i.equals("x") )
             {
 
-                output.add( i );
+                if( AddSign )
+                {
+
+                    AddSign = false;
+                    OpAlready = false;
+                    output.add( sign + i );
+                    sign = "";
+
+                }
+                else
+                {
+                    output.add( i );
+                }
+
+                OpAlready = false;
 
             }else if( !i.equals( "(" ) && !i.equals( ")" ) )
             {
+
+                if( i.equals("+") || i.equals("-") )
+                {
+
+                    if( OpAlready )
+                    {
+
+                        OpAlready = false;
+                        AddSign = true;
+                        sign = i;
+                        continue;
+
+                    }else
+                    {
+
+                        OpAlready = true;
+
+                    }
+
+                }else
+                {
+
+                    OpAlready = false;
+
+                }
 
                 if( operator.size() > 0 && !operator.get( operator.size()-1 ).equals("(") )
                 {
