@@ -34,7 +34,7 @@ public class GUI extends Application
 
     static void AddData()
     {
-        ArrayList< Double > vals = RPN.GetGraphVals( xmin, xmax, Equation.getText() );
+        ArrayList< Double > vals = RPN.GetGraphVals( xmin, xmax, Equation.getText().replace( " ", "" ) );
 
         if( vals == null )
         {
