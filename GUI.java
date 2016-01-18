@@ -112,7 +112,7 @@ public class GUI extends Application
 
         translator = new RPN();
 
-        primaryStage.setTitle( "Graping Calculator" );
+        primaryStage.setTitle( "Graphing Calculator" );
         
         grid = new GridPane();
         grid.setHgap( 10 );
@@ -123,6 +123,7 @@ public class GUI extends Application
         domsGrid.setPadding( new Insets( 10, 10, 10, 10 ) );
 
         Equation = new TextField("");
+        Equation.setPromptText( "f(x):" );
         Button GraphButton = new Button("Graph" );
 
         String promptText[] = {"X minimum","X maximum","Y minimum", "Y maximum" };
