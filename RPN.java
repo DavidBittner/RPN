@@ -403,6 +403,15 @@ public class RPN
 
         }
 
+        if( output.size() > 1 )
+        {
+
+            NullPointerException e = new NullPointerException();
+
+            throw e;
+    
+        }
+
         return output.get(0);
 
     }
@@ -535,17 +544,16 @@ public class RPN
     static ArrayList<Double> GetGraphVals( double xmin, double xmax, String equation )
     {
 
-        equation.replace( " ", "" );
-
-        ArrayList<String> tokens = tokenize( equation );
-        ArrayList<String> rpnEqua = shuntingYard( tokens );
-
-        ArrayList<Double> out = new ArrayList<>();
-
         try
         {
+            equation.replace( " ", "" );
 
-            for( double i = xmin; i < xmax; i+=0.01 )
+            ArrayList<String> tokens = tokenize( equation );
+            ArrayList<String> rpnEqua = shuntingYard( tokens );
+
+            ArrayList<Double> out = new ArrayList<>();
+                
+            for( double i = xmin; i < xmax; i+=((xmax-xmin)/100) )
             {
 
                 ArrayList<String> tempEquation = Replace( rpnEqua, i );
@@ -555,16 +563,16 @@ public class RPN
                 out.add( returnVal );
 
             }
-            
-        }catch( NullPointerException e )
+
+            return out;
+
+        }
+        catch( IndexOutOfBoundsException e )
         {
 
             return null;
 
         }
-
-        return out;
-
     }
 
 }
