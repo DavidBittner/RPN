@@ -34,7 +34,7 @@ public class RPN
     public static boolean CheckFunc( String in )
     {
 
-        String funcs[] = {"sin","cos"};
+        String funcs[] = {"pi","e","sin","cos","tan","asin","acos","atan","abs","x","log"};
 
         for( String i : funcs )
         {
@@ -96,7 +96,7 @@ public class RPN
 
         }
 
-        return 1;
+        return 5;
 
     }
 
@@ -139,7 +139,7 @@ public class RPN
 
         }
 
-        return true;
+        return false;
 
     }
 
@@ -178,7 +178,6 @@ public class RPN
 
             }else if( !i.equals( "(" ) && !i.equals( ")" ) )
             {
-
 
                 if( OpAlready && (i.equals("+") || i.equals("-")) )
                 {
@@ -396,6 +395,68 @@ public class RPN
                         break;
 
                     }
+                    case "tan":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.tan( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "log":
+                    {
+    
+                        vals = GetVals( 1, output );
+                        output.add( Math.log( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "e":
+                    {
+
+                        output.add(2.71828);
+                        break;
+
+                    }
+                    case "pi":
+                    {
+
+                        output.add(3.14159);
+                        break;
+
+                    }
+                    case "atan":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.atan( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "asin":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.asin( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "acos":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.acos( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "abs":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.abs( vals.get(0) ) );
+                        break;
+
+                    }
 
                 }
 
@@ -440,7 +501,7 @@ public class RPN
     {
 
         String ops[] = {"+","-","/","*","^","(",")"};
-        String funcs[] = {"e","sin","cos","tan","asin","acos","atan","abs","x"};
+        String funcs[] = {"pi","e","sin","cos","tan","asin","acos","atan","abs","x","log"};
 
         for( int i = 0; i < ops.length; i++ )
         {
@@ -553,7 +614,7 @@ public class RPN
 
             ArrayList<Double> out = new ArrayList<>();
                 
-            for( double i = xmin; i < xmax; i+=((xmax-xmin)/100) )
+            for( double i = xmin; i < xmax; i+=((xmax-xmin)/500) )
             {
 
                 ArrayList<String> tempEquation = Replace( rpnEqua, i );
