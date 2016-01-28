@@ -67,11 +67,11 @@ public class RPN
 
             case "(":
             {
-                return 5;
+                return 0;
             }
             case ")":
             {
-                return 5;
+                return 0;
             }
             case "^":
             {
@@ -190,13 +190,18 @@ public class RPN
                 }else
                 {
 
-                    OpAlready = true;
+                    if( !CheckFunc( i ) )
+                    {
+                     
+                        OpAlready = true;
+                    
+                    }
 
                 }
 
                 OpAlready = true;
                 
-                if( operator.size() > 0 && !operator.get( operator.size()-1 ).equals("(") )
+                if( operator.size() > 0 )
                 {
 
                     //left
@@ -273,7 +278,11 @@ public class RPN
                         operator.remove( operator.size()-1 );
 
                     }
-                    operator.remove( operator.size()-1 );
+                    if( operator.size() > 0 )
+                    {
+                        operator.remove( operator.size()-1 );
+
+                    }
 
                 }
 
