@@ -20,13 +20,6 @@ public class RPN
 
         ArrayList<String> array = shuntingYard( tokenize( input ) );
 
-        for( int i = 0; i < array.size(); i++ )
-        {
-
-            //System.out.print( array.get(i) + " " );
-
-        }
-
         System.out.println( EvalRPN( array ) );
 
     }
@@ -34,7 +27,7 @@ public class RPN
     public static boolean CheckFunc( String in )
     {
 
-        String funcs[] = {"pi","e","sin","cos","tan","asin","acos","atan","abs","x","log"};
+        String funcs[] = {"pi","e","sin","cos","tan","asin","acos","atan","abs","x","log","int","floor","ceil"};
 
         for( String i : funcs )
         {
@@ -295,8 +288,6 @@ public class RPN
             output.add( operator.get(i) );
         }
 
-        System.out.println( " " );
-
         return output;
 
     }
@@ -308,9 +299,10 @@ public class RPN
 
         if( count > in.size() )
         {
-
-            System.out.println( "Not enough vals!" );
-            return null;
+            
+            System.out.println( "Not enough values!" );
+            NumberFormatException e = new NumberFormatException();
+            throw e; 
 
         }
 
@@ -466,6 +458,54 @@ public class RPN
                         break;
 
                     }
+                    case "int":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( (double)Math.round( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "ceil":
+                    {
+                    
+                        vals = GetVals( 1, output );
+                        output.add( Math.ceil( vals.get(0) ));
+                        break;
+
+                    }
+                    case "floor":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( Math.floor( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "csc":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( 1/Math.sin( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "sec":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( 1/Math.cos( vals.get(0) ) );
+                        break;
+
+                    }
+                    case "cot":
+                    {
+
+                        vals = GetVals( 1, output );
+                        output.add( 1/Math.tan( vals.get(0) ) );
+                        break;
+
+                    }
 
                 }
 
@@ -510,7 +550,7 @@ public class RPN
     {
 
         String ops[] = {"+","-","/","*","^","(",")"};
-        String funcs[] = {"pi","e","sin","cos","tan","asin","acos","atan","abs","x","log"};
+        String funcs[] = {"pi","e","sin","cos","tan","asin","acos","atan","abs","x","log","int","floor","ceil","csc","sec","cot"};
 
         for( int i = 0; i < ops.length; i++ )
         {

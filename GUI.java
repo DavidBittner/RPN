@@ -23,8 +23,8 @@ public class GUI extends Application
     static NumberAxis xAxis;
     static NumberAxis yAxis;
 
-    static int xmin = -5, xmax = 5;
-    static int ymin = -5, ymax = 5;
+    static double xmin = -10, xmax = 10;
+    static double ymin = -10, ymax = 10;
 
     static TextField doms[] = new TextField[4];
 
@@ -147,10 +147,10 @@ public class GUI extends Application
 
                 try
                 {
-                    xmin = Integer.parseInt( doms[0].getText() );
-                    xmax = Integer.parseInt( doms[1].getText() );
-                    ymin = Integer.parseInt( doms[2].getText() );
-                    ymax = Integer.parseInt( doms[3].getText() );
+                    xmin = Double.parseDouble( doms[0].getText() );
+                    xmax = Double.parseDouble( doms[1].getText() );
+                    ymin = Double.parseDouble( doms[2].getText() );
+                    ymax = Double.parseDouble( doms[3].getText() );
 
                     if( xmin > xmax )
                     {
